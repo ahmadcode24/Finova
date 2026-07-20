@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stakely | Intelligence Interface</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://api.fontshare.com/v2/css?f[]=geist@400,500,600&f[]=jet-brains-mono@400,500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="stylesheet" href="styles.css"/>
+<script src="app.js" defer></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "var(--bg-surface)",
+                        "on-surface-variant": "var(--text-on-surface-variant)",
+                        "on-secondary": "#313030",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "inverse-primary": "#5d5f5f",
+                        "on-secondary-container": "#b7b5b4",
+                        "surface-container-high": "var(--bg-surface-variant)",
+                        "on-primary-container": "#636565",
+                        "surface-container-low": "var(--bg-surface)",
+                        "surface-container-lowest": "var(--bg-background)",
+                        "surface-tint": "#c6c6c7",
+                        "surface-variant": "var(--bg-surface-variant)",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-primary-fixed": "#1a1c1c",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-primary": "var(--text-primary-on-bg)",
+                        "on-background": "var(--text-on-surface)",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "primary": "var(--bg-primary)",
+                        "surface-dim": "var(--bg-surface)",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary": "#303030",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "outline-variant": "var(--border-strong)",
+                        "on-surface": "var(--text-on-surface)",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface": "var(--bg-surface)",
+                        "secondary-container": "#474746",
+                        "on-tertiary-container": "#656464",
+                        "background": "var(--bg-background)",
+                        "inverse-surface": "var(--text-on-surface)",
+                        "outline": "var(--border-subtle)",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "secondary": "#c8c6c5",
+                        "surface-bright": "var(--bg-surface)",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "primary-container": "#e2e2e2",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#474746",
+                        "surface-container-highest": "var(--bg-surface-variant)",
+                        "tertiary": "#ffffff",
+                        "tertiary-container": "#e4e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg": ["Geist"],
+                        "headline-sm": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: var(--bg-background);
+            color: var(--text-on-surface);
+            font-family: 'Geist', sans-serif;
+            overflow: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .glow-orb {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle at center, var(--orb-center) 0%, var(--orb-edge) 80%);
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: pulse-glow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 40px rgba(255,255,255,0.1); }
+            100% { transform: scale(1.05); opacity: 1; box-shadow: 0 0 70px rgba(255,255,255,0.25); }
+        }
+
+        .active-pill-glow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 20px;
+            background: white;
+            filter: blur(15px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .chat-input-container {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chat-input-container:focus-within {
+            border-color: var(--bg-primary);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Upgrade card styling */
+        .upgrade-card {
+            background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-background) 100%);
+            border: 1px solid var(--border-strong);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--border-strong);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+<!-- SideNavBar Shell -->
+<aside class="fixed top-0 left-0 h-full flex flex-col justify-between border-r border-outline-variant/10 bg-background w-64 p-6 z-50">
+<!-- Brand -->
+<div class="flex items-center gap-3 px-2">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-background text-[20px] font-bold">bolt</span>
+</div>
+<span class="text-headline-sm font-headline-md font-bold text-on-surface">FDIAS Local</span>
+</div>
+<!-- Navigation Items -->
+<nav class="mt-8 flex-grow flex flex-col gap-4 overflow-hidden">
+    <!-- New Chat Button -->
+    <button onclick="startNewChat()" class="flex items-center justify-center gap-2 w-full py-2 bg-primary text-background rounded-lg hover:opacity-90 transition-opacity font-label-md">
+        <span class="material-symbols-outlined text-[18px]">add</span>
+        New Chat
+    </button>
+    <!-- Recent Chats Header -->
+    <div class="mt-4 flex items-center gap-2 px-2">
+        <span class="material-symbols-outlined text-[16px] text-on-surface-variant">history</span>
+        <h4 class="font-label-md text-on-surface-variant uppercase tracking-wider text-[11px]">Recent Chats</h4>
+    </div>
+    
+    <!-- Recent Chats Container -->
+    <ul id="recent-chats-list" class="flex flex-col gap-2 overflow-y-auto custom-scrollbar flex-grow px-1 pb-4">
+        <!-- Dynamic chat sessions will go here -->
+    </ul>
+</nav>
+<!-- Sidebar Footer (Theme Toggle) -->
+<div class="pt-4 border-t border-outline-variant/10">
+    <button onclick="toggleTheme()" class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface transition-colors w-full p-2 rounded-lg hover:bg-surface-variant">
+        <span id="theme-icon" class="material-symbols-outlined text-[20px]">light_mode</span>
+        <span class="font-label-md text-sm" id="theme-text">Switch to Light</span>
+    </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 relative flex flex-col items-center justify-start p-0 bg-background overflow-hidden">
+<!-- Toast Container -->
+<div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div>
+<!-- Background Ambient Effect -->
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<div class="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-white rounded-full mix-blend-soft-light blur-[150px]"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[400px] h-[400px] bg-white rounded-full mix-blend-soft-light blur-[120px]"></div>
+</div>
+<!-- Chat History Area -->
+<div id="chat-history" class="w-full max-w-4xl px-8 flex flex-col gap-6 overflow-y-auto custom-scrollbar flex-1 min-h-0 z-20 pb-40">
+    <div class="h-12 w-full flex-shrink-0"></div> <!-- Spacer to prevent top clipping -->
+    <!-- Central Empty State -->
+    <div id="empty-state" class="flex flex-col items-center text-center w-full mt-12">
+        <!-- Animated Orb (Simulated with CSS) -->
+        <div class="glow-orb mb-12 flex items-center justify-center">
+            <!-- Detailed texture prompt as requested -->
+            <div class="w-full h-full rounded-full opacity-40 mix-blend-overlay" data-alt="A macro photography shot of a swirling, monochromatic liquid metal sphere floating in a void. The surface of the sphere is incredibly detailed, showing subtle ripples and fluid dynamics. Lighting is dramatic, with a bright rim light that separates the black and silver sphere from the deep obsidian background. The aesthetic is ultra-high-definition, professional, and minimalist." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCJXwz4macbCwjX1tbFzr9AvMCqyuLIVHWSPKPT9yagHm8011dEpHU1anbN3V0aLz6_tWqnfuKh2ocG462wDK1bnYFbqel_RXylaUlBNB2wSY6Ago__WGnAB8dYffD4NiHz8Hj-Yc26Ou_0M66SmBB6f5nczhDBP5uy2CaeP1NbCHBkI1Tq7zszcpgYTGTcC308Oh11t8axwUP_irpkAIH9y2rDn6_VBjuB44J280nyLUUgvC8y5iEZ')"></div>
+        </div>
+        <h1 class="font-headline-md text-headline-md text-on-surface mb-4">Let's get started.</h1>
+        <p class="font-headline-sm text-headline-sm text-on-surface-variant/60">Upload your financial documents to begin.</p>
+    </div>
+</div>
+<!-- Floating Chat Input Area -->
+<div class="fixed bottom-8 w-full max-w-3xl px-8 z-30">
+<!-- Active Documents Area (Above Chat Input) -->
+<div id="active-documents" class="flex flex-wrap gap-2 mb-2 px-2 max-h-24 overflow-y-auto custom-scrollbar">
+    <!-- Active docs go here -->
+</div>
+
+<div class="chat-input-container glass-card rounded-3xl p-4 flex flex-col gap-4 relative">
+<!-- Input Field Row -->
+<div class="flex items-center gap-4 bg-surface rounded-2xl p-2 pl-2 border border-[var(--border-strong)]">
+<!-- Attachment Button & Hidden File Input -->
+<div class="relative">
+    <button id="attach-btn" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Attach Document">
+        <span class="material-symbols-outlined text-[20px]">attach_file</span>
+    </button>
+    <input type="file" id="file-input" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" title="Attach Document">
+</div>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-label-md placeholder:text-on-surface-variant/40 outline-none w-full py-2" id="chat-input" placeholder="Ask me anything about your documents..." type="text" disabled/>
+<div class="flex items-center gap-2 pr-1">
+<button id="send-btn" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-background hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+<span class="material-symbols-outlined text-[20px]">north</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</main>
+<script>
+    // Input visual micro-interaction
+    const inputField = document.getElementById('chat-input');
+    const inputContainer = inputField.closest('.chat-input-container');
+
+    inputField.addEventListener('focus', () => {
+        inputContainer.style.transform = 'translateY(-4px)';
+    });
+
+    inputField.addEventListener('blur', () => {
+        inputContainer.style.transform = 'translateY(0)';
+    });
+</script>
+</body></html>
